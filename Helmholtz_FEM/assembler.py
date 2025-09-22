@@ -10,8 +10,8 @@ def assemble_fem_system(domain, frequency, velocity_array, source, alpha):
       ∫ ( (s_y/s_x) u_x v_x + (s_x/s_y) u_y v_y - k^2 s_x s_y u v ) dΩ = ∫ f v dΩ
     con elementos Q1 y cuadratura de Gauss 2×2.
     """
-    nx, ny = domain.nx, domain.ny
-    nk = nx * ny
+    nx, ny = domain.nx, domain.ny # nodos en x, y
+    nk = nx * ny # total nodos
 
     K = lil_matrix((nk, nk), dtype=complex)  # rigidez
     M = lil_matrix((nk, nk), dtype=complex)  # masa-PML
