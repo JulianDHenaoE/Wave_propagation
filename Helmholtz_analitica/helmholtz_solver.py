@@ -1,51 +1,68 @@
 import numpy as np
+from scipy.sparse import diags
+from scipy.sparse.linalg import spsolve
+import scipy.sparse as sparse
 
-def calculate_wave_number(frequency, velocity):
+def solve_helmholtz_numerically(X, Y, source, k, boundary_condition='sommerfeld'):
     """
-    Calcula el número de onda k = 2πf / v
+    Resuelve la ecuación de Helmholtz 2D numéricamente usando diferencias finitas.
+    ∇²ψ + k²ψ = f(x,y)
+    
     Parámetros:
-        frequency : Frecuencia [Hz]
-        velocity  : Velocidad de propagación [m/s]
-    Retorna:
-        k : número de onda [rad/m]
+        X, Y: Mallas de coordenadas
+        source: Campo de fuente f(x,y)
+        k: Número de onda
+        boundary_condition: Condición de frontera
     """
-    return 2 * np.pi * frequency / velocity
-
-
-def analytical_helmholtz_solution(x, y, k, x0=0, y0=0):
-    """
-    Solución analítica de la ecuación de Helmholtz en 2D (fuente puntual).
-    ψ(r) = e^(ikr) / (4πr)
-    Parámetros:
-        x, y : coordenadas donde evaluar
-        k    : número de onda [rad/m]
-        x0,y0: posición de la fuente
-    Retorna:
-        ψ(x,y): campo complejo en cada punto
-    """
-    r = np.sqrt((x - x0)**2 + (y - y0)**2)
-    r_safe = np.where(r < 1e-10, 1e-10, r)  # evita división por cero
-    return np.exp(1j * k * r_safe) / (4 * np.pi * r_safe)
-
-
-def gaussian_source(x, y, amplitude=1, x0=0, y0=0, sigma=0.05):
-    """
-    Define una fuente gaussiana localizada en (x0,y0).
-    Parámetros:
-        x, y      : coordenadas
-        amplitude : amplitud máxima
-        sigma     : ancho de la gaussiana
-    """
-    r_squared = (x - x0)**2 + (y - y0)**2
-    return amplitude * np.exp(-r_squared / (2 * sigma**2))
-
-
-def create_grid(x_min, x_max, y_min, y_max, resolution):
-    """
-    Crea la malla cartesiana para la simulación.
-    Retorna:
-        X, Y: mallas 2D con coordenadas
-    """
-    x = np.linspace(x_min, x_max, resolution)
-    y = np.linspace(y_min, y_max, resolution)
-    return np.meshgrid(x, y)
+    nx, ny = X.shape
+    dx = (X[0,1] - X[0,0])
+    dy = (Y[1,0] - Y[0,0])
+    
+    # Número total de puntos
+    N = nx * ny
+    
+    # Constantes de la discretización
+    hx2 = dx * dx
+    hy2 = dy * dy
+    k2 = k * k
+    
+    # Constantes para la matriz
+    diag_const = -2/hx2 - 2/hy2 + k2
+    x_const = 1/hx2
+    y_const = 1/hy2
+    
+    # Construir matriz dispersa
+    diagonals = []
+    offsets = []
+    
+    # Diagonal principal
+    diagonals.append(np.ones(N) * diag_const)
+    offsets.append(0)
+    
+    # Sub/super diagonales para derivadas en x
+    diagonals.append(np.ones(N-1) * x_const)
+    offsets.append(1)
+    diagonals.append(np.ones(N-1) * x_const)
+    offsets.append(-1)
+    
+    # Sub/super diagonales para derivadas en y
+    diagonals.append(np.ones(N-nx) * y_const)
+    offsets.append(nx)
+    diagonals.append(np.ones(N-nx) * y_const)
+    offsets.append(-nx)
+    
+    # Crear matriz
+    A = diags(diagonals, offsets, shape=(N, N), format='csr')
+    
+    # Aplicar condiciones de frontera (simplificado)
+    if boundary_condition == 'dirichlet':
+        # Para fronteras, establecer 1 en la diagonal y 0 en otros lugares
+        pass  # Implementación simplificada
+    
+    # Vector fuente
+    b = source.ravel()
+    
+    # Resolver sistema lineal
+    psi_numeric = spsolve(A, b)
+    
+    return psi_numeric.reshape((nx, ny))
