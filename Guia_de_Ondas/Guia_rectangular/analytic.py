@@ -17,4 +17,4 @@ def Ez_TM_nodes(m, n, x, y, W, H): # m,n>=1
     Forma analítica del campo longitudinal para TM_mn: E_z = sin(mπx/W)sin(nπy/H).
     Válido para m,n>=1.
     """
-    return np.sin(m*np.pi*x/W)*np.sin(n*np.pi*y/H) # Se resuelve la función de campo longitudinal
+    return np.sin(m*np.pi*x/W)*np.sin(n*np.pi*y/H) # Se resuelve la función de campo longitudinal (Modo transverso eléctrico)
