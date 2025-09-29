@@ -11,7 +11,7 @@ class BilinearElement:
     - 4 nodos por elemento (vértices del cuadrilátero)
     - Interpolación bilineal (lineal en cada dirección)
     - Orden de convergencia: O(h²) para desplazamientos
-    - Adecuado para problemas 2D de elasticidad, calor, etc.
+    - 
     
     Sistema de coordenadas naturales:
         N4(-1,1) ────── N3(1,1)
