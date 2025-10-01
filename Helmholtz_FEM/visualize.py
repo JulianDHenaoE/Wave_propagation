@@ -7,7 +7,7 @@ cmap_source = LinearSegmentedColormap.from_list('source', ['green', 'white', 'pu
 
 def plot_solution(domain, frequency, u_array, source_array, title_suffix=""):
     fig, (ax0, ax1, ax2) = plt.subplots(1, 3, figsize=(15, 5))
-    fig.suptitle(f'True FEM Solution - Frequency: {frequency:.1f} Hz {title_suffix}', fontsize=16)
+    fig.suptitle(f'FEM Solution - Frequency: {frequency:.1f} Hz {title_suffix}', fontsize=16)
     rect_params = dict(
         xy=(domain.main_extension[0], domain.main_extension[2]),
         width=domain.main_extension[1]-domain.main_extension[0],
@@ -20,7 +20,7 @@ def plot_solution(domain, frequency, u_array, source_array, title_suffix=""):
     fig.colorbar(im0, ax=ax0, shrink=0.5)
     ax0.add_patch(patches.Rectangle(**rect_params))
     ax0.set_title('Source (Real part)')
-    ax0.set_xlabel('x'); ax0.set_ylabel('y')
+    ax0.set_xlabel('X[m]'); ax0.set_ylabel('Y[m]')
 
     vmax = np.max(np.abs(np.real(u_array)))
     im1 = ax1.imshow(np.real(u_array).T, extent=domain.extension,
@@ -28,14 +28,14 @@ def plot_solution(domain, frequency, u_array, source_array, title_suffix=""):
     fig.colorbar(im1, ax=ax1, shrink=0.5)
     ax1.add_patch(patches.Rectangle(**rect_params))
     ax1.set_title('Field (Real part)')
-    ax1.set_xlabel('x'); ax1.set_ylabel('y')
+    ax1.set_xlabel('X[m]'); ax1.set_ylabel('Y[m]')
 
     im2 = ax2.imshow(np.angle(u_array).T, extent=domain.extension,
                      origin='lower', cmap='twilight', vmin=-np.pi, vmax=np.pi)
     fig.colorbar(im2, ax=ax2, shrink=0.5)
     ax2.add_patch(patches.Rectangle(**rect_params))
     ax2.set_title('Phase')
-    ax2.set_xlabel('x'); ax2.set_ylabel('y')
+    ax2.set_xlabel('X[m]'); ax2.set_ylabel('Y[m]')
 
     fig.tight_layout()
     plt.show()

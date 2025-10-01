@@ -26,7 +26,7 @@ from mesh import rect_mesh
 # Tipo de modo y modo específico a estudiar
 KIND     = "TE"     # Tipo de modo: "TE" (Transverso Eléctrico)
 MODE_MN  = (1, 0)   # Modo específico: TE₁₀ (modo fundamental)
-W, H     = 1.0, 0.5 # Dimensiones de la guía [metros]
+W, H     = 4.0, 3.0 # Dimensiones de la guía [metros]
 
 # ==============================================================================
 # NIVELES DE REFINAMIENTO DE MALLA

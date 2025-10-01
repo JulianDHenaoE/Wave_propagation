@@ -22,10 +22,10 @@ from eigen import solve_mode
 # ==============================================================================
 
 # Dimensiones físicas de la guía de onda [metros]
-W, H = 4.0, 3.0  # Relación de aspecto 4:3
+W, H = 4.0, 3.0  
 
 # Resolución de la malla FEM
-Nx, Ny = 40, 20  # 40×20 = 800 nodos, ~1482 triángulos
+Nx, Ny = 40, 20  
 
 # Modo de visualización del campo electromagnético
 # "raw"     → Muestra el campo FEM directo (puede tener signos inconsistentes)
@@ -136,8 +136,10 @@ nrows = int(np.ceil(len(modes_TE) / ncols))  # Filas necesarias
 fig, axs = plt.subplots(nrows, ncols, figsize=(14, 4.2 * nrows))
 
 # Título principal de la figura
-fig.suptitle(f"Modos TEmn - Guía Rectangular {W}×{H} - Visualización: {mode_view}",
-             fontsize=16, fontweight="bold", y=0.98)
+#fig.suptitle(f"Modos TEmn - Guía Rectangular {W}×{H} - Visualización: {mode_view}",
+             #fontsize=16, fontweight="bold", y=0.98)
+
+fig.suptitle(f"Modos TEmn - Guía Rectangular", fontweight="bold", y=0.98)
 
 
 # ==============================================================================
@@ -258,8 +260,9 @@ print("=" * 70)
 print(f"Dimensiones de la guía: {W} × {H} m")
 print(f"Resolución de malla: {Nx} × {Ny}")
 print(f"Nodos: {Nx * Ny}, Elementos: ~{2 * (Nx-1) * (Ny-1)}")
-print(f"Modos calculados: {len(modes_TE)} modos TE")
-print(f"Visualización: {mode_view}")
+#print(f"Modos calculados: {len(modes_TE)} modos TE")
+print(f" modos TE")
+#print(f"Visualización: {mode_view}")
 print(f"Modo fundamental: TE10")
 print(f"Frecuencia de corte TE10: {(3e8 * np.pi/W)/(2*np.pi)/1e6:.2f} MHz")
 print("=" * 70)
