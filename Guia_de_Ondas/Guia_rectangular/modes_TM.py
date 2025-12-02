@@ -22,10 +22,10 @@ from eigen import solve_mode
 # ==============================================================================
 
 # Dimensiones físicas de la guía de onda [metros]
-W, H = 4.0, 3.0 
+W, H = 4.0, 3.0  # Relación de aspecto 4:3
 
 # Resolución de la malla FEM - suficiente para capturar variaciones modales
-Nx, Ny = 60, 40  # Nx x Ny = Número de nodos en x e y 
+Nx, Ny = 40, 20  # 40×20 = 800 nodos, ~1482 triángulos
 
 # Modo de visualización del campo electromagnético
 mode_view = "aligned"  # Opciones: "raw" (directo) o "aligned" (normalizado)

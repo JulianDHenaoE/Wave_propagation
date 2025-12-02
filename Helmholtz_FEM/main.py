@@ -5,7 +5,7 @@ from visualize import plot_solution
 from config import *
 
 def main():
-    print("=== Finite Element Method for Helmholtz Equation ===")
+    print("=== True Finite Element Method for Helmholtz Equation ===")
     domain = HelmholtzDomain(MAIN_DOMAIN_SHAPE, MAIN_DOMAIN_EXTENSION)
     domain.pml_domain(NBL)
     print(f"Domain: {domain.nx} x {domain.ny} nodes")

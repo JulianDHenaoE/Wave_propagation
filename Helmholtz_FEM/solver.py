@@ -4,16 +4,16 @@ from scipy.sparse.linalg import spsolve
 from elements import BilinearElement
 from pml import pml_functions
 
-def assemble_fem_system(domain, frequency, velocity_array, source, alpha): # Se monta el sistema FEM 
-    nx, ny = domain.nx, domain.ny  # Número de nodos en x e y 
-    nk = nx * ny # Número total de nodos
+def assemble_fem_system(domain, frequency, velocity_array, source, alpha):
+    nx, ny = domain.nx, domain.ny
+    nk = nx * ny
     
-    K = lil_matrix((nk, nk), dtype=complex) # Matriz de rigidez
-    M = lil_matrix((nk, nk), dtype=complex) # Matriz de masa
-    F = np.zeros(nk, dtype=complex) # Vector de carga
+    K = lil_matrix((nk, nk), dtype=complex)
+    M = lil_matrix((nk, nk), dtype=complex)
+    F = np.zeros(nk, dtype=complex)
     
-    omega = 2*np.pi*frequency # Frecuencia angular
-    pml_transform = pml_functions(domain, alpha, frequency) # Funciones PML
+    omega = 2*np.pi*frequency
+    pml_transform = pml_functions(domain, alpha, frequency)
     
     gauss_points = np.array([[-1/np.sqrt(3), -1/np.sqrt(3)],
                              [ 1/np.sqrt(3), -1/np.sqrt(3)],
@@ -76,7 +76,7 @@ def assemble_fem_system(domain, frequency, velocity_array, source, alpha): # Se 
                     M[nodes[a], nodes[b]] += M_elem[a,b]
                 F[nodes[a]] += F_elem[a]
     A = K - M
-    return A.tocsr(), F # Sistema lineal Ax = F
+    return A.tocsr(), F
 
 
 def solve_helmholtz_fem(domain, frequency, velocity_array, source, alpha):

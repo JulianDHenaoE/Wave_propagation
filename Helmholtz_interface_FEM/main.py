@@ -8,8 +8,8 @@ from plotting import plot_solution, plot_velocity, plot_mesh
 
 def main():
     p = argparse.ArgumentParser(description="Helmholtz 2D FEM with PML (Q1).")
-    p.add_argument("--nx", type=int, default=300)  # celdas en x Resolución de la malla  
-    p.add_argument("--ny", type=int, default=300)  # celdas en y Resolución de la malla
+    p.add_argument("--nx", type=int, default=251)  # celdas en x Resolución de la malla  
+    p.add_argument("--ny", type=int, default=251)  # celdas en y Resolución de la malla
     p.add_argument("--xmin", type=float, default=-1.0)
     p.add_argument("--xmax", type=float, default=1.0)
     p.add_argument("--ymin", type=float, default=-1.0)
